@@ -12,7 +12,7 @@ class GuessNumber:
     def radomize_number(self):
         """
         Generate random number
-        :return: random_number
+        :return:
         """
         self.randomize_number = random.randrange(1, 16)
 
@@ -38,17 +38,22 @@ class GuessNumber:
                 return self.life
             elif number == 2:
                 self.life = self.level['normal']
-                print(f'Chosen level - normal, you have {self.level["normal"]} lives')
+                print(f'Chosen level - normal, you have {self.level["normal"]} life\'s')
                 return self.life
             elif number == 3:
                 self.life = self.level['hard']
-                print(f'Chosen level - hard, you have {self.level["hard"]} lives')
+                print(f'Chosen level - hard, you have {self.level["hard"]} life\'s')
                 return self.life
             else:
                 print('You input wrong number! Please repeat input!')
 
 
     def game_logic(self, life):
+        """
+        Game logic, definition of number.
+        :param life:
+        :return:
+        """
         count = 1
         self.radomize_number()
         print(f'You have {life} try\'s')
@@ -56,11 +61,11 @@ class GuessNumber:
             print(f'Try number {count}')
             self.player_input_number()
             if self.number > self.randomize_number:
-                print('The number is more than hidden number!')
+                print('The number is higher than hidden number!')
                 count += 1
                 continue
             elif self.number < self.randomize_number:
-                print('The number is less than hidden number!')
+                print('The number is lower than hidden number!')
                 count += 1
                 continue
             else:
@@ -70,7 +75,7 @@ class GuessNumber:
         if self.victory:
             print(f'Congratulation!!! You win!!!')
         else:
-            print(f'You loose, try another time!!!')
+            print(f'You lose, try another time!!!')
 
 
 gn = GuessNumber()
