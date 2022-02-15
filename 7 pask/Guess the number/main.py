@@ -1,5 +1,6 @@
 import random
 
+
 class GuessNumber:
     number = None
     randomize_number = None
@@ -55,7 +56,7 @@ class GuessNumber:
             print(f'Try number {count}')
             self.player_input_number()
             if self.number > self.randomize_number:
-                print('The number is higher than hidden number!')
+                print('The number is more than hidden number!')
                 count += 1
                 continue
             elif self.number < self.randomize_number:
