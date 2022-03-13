@@ -1,6 +1,9 @@
 from data import question_data
 from question import Question
 from quiz import Quiz
+from datetime import datetime
+
+user_name = input("Input your Username: ")
 
 question_bank = []
 for n in question_data:
@@ -22,3 +25,11 @@ while quiz.remaining_question():
     quiz.next_question()
 
 print(f"You completed the Quiz. Your final score is {quiz.score}/{quiz.question_num}")
+
+now = datetime.now()
+time = ('%s/%s/%s %s:%s' % (now.day, now.month, now.year, now.hour, now.minute))
+User_score = ("\n" + user_name, ' Score: ', str(quiz.score),' Time: ', time, ' ')
+with open('Score.txt', 'a') as myFile:
+    myFile.writelines(User_score)
+
+
