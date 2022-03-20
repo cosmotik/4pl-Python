@@ -1,0 +1,5 @@
+red: 0
+purple: 0
+brown: 0
+orange: 0
+blue: 0
