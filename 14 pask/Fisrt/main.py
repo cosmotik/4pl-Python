@@ -75,8 +75,8 @@ screen.listen()
 
 # tim.color(random_color())
 
-# draw_square(50)
+#draw_square(50)
 # draw_dash(10, 10)
-# draw_shape(3)
-# draw_spirograph(200, 1)
+#draw_shape(3)
+draw_spirograph(200, 1)
 screen.exitonclick()
