@@ -67,9 +67,6 @@ def game():
     pencil.hideturtle()
     pencil.write("Player A: 0  Player B: 0", align="center", font=("Arial", 20, "normal"))
 
-    border = Turtle()
-    border.color("white")
-
     # key up/down functions
     def racket_1_up():
         y = racket_1.ycor()
