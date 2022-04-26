@@ -17,6 +17,7 @@ borders.penup()
 borders.setposition(-400, -250)
 borders.pendown()
 borders.pensize(3)
+
 for _ in range(4):
     if _ % 2 == 0:
         borders.forward(800)
@@ -24,7 +25,7 @@ for _ in range(4):
     else:
         borders.forward(500)
         borders.left(90)
-borders.hideturtle()
+    borders.hideturtle()
 
 score = 0
 
@@ -45,7 +46,7 @@ player.setposition(0, -220)
 player.setheading(90)
 
 player_speed = 30
-invaders_number = 10
+invaders_number = 5
 invaders = []
 
 for i in range(invaders_number):
@@ -56,10 +57,10 @@ for invader in invaders:
     invader.penup()
     invader.speed(0)
     x = random.randint(-370, 370)
-    y = random.randint(150, 230)
+    y = random.randint(150, 220)
     invader.setposition(x, y)
 
-invader_speed = 15
+invader_speed = 5
 
 bullet = turtle.Turtle()
 bullet.color("red")
@@ -71,29 +72,29 @@ bullet.shapesize(0.5, 0.5)
 bullet.hideturtle()
 
 bullet_speed = 30
-bulletstate = "ready"
+bullet_state = "ready"
 
 
 def move_left():
     x = player.xcor()
     x -= player_speed
-    if x < -375:
-        x = -375
+    if x < -370:
+        x = -370
     player.setx(x)
 
 
 def move_right():
     x = player.xcor()
     x += player_speed
-    if x > 375:
-        x = 375
+    if x > 370:
+        x = 370
     player.setx(x)
 
 
 def fire_ammo():
-    global bulletstate
-    if bulletstate == "ready":
-        bulletstate == "fire"
+    global bullet_state
+    if bullet_state == "ready":
+        bullet_state = "fire"
         x = player.xcor()
         y = player.ycor() + 10
         bullet.setposition(x, y)
@@ -122,7 +123,7 @@ turtle.onkey(move_right, "Right")
 turtle.onkey(fire_ammo, "space")
 
 Game_Over = False
-missed_enemies = 0
+missed_invaders = 0
 
 while True:
     for invader in invaders:
@@ -135,13 +136,13 @@ while True:
                 y = i.ycor()
                 y -= 40
                 i.sety(y)
-                if i.ycor() < -230 and Game_Over == False:
+                if i.ycor() < -220 and Game_Over is False:
                     i.hideturtle()
-                    missed_enemies += 1
-                    if missed_enemies == 10:
+                    missed_invaders += 1
+                    if missed_invaders == 10:
                         Game_Over = True
                     x = random.randint(-200, 200)
-                    y = random.randint(100, 250)
+                    y = random.randint(150, 230)
                     i.setposition(x, y)
                     i.showturtle()
             invader_speed *= -1
@@ -151,13 +152,46 @@ while True:
                 y = i.ycor()
                 y -= 40
                 i.sety(y)
-                if i.ycor() < -230 and Game_Over == False:
+                if i.ycor() < -220:
                     i.hideturtle()
-                    missed_enemies += 1
-                    if missed_enemies == 10:
+                    missed_invaders += 1
+                    if missed_invaders == 1:
                         Game_Over = True
                     x = random.randint(-200, 200)
-                    y = random.randint(100, 250)
+                    y = random.randint(100, 230)
                     i.setposition(x, y)
                     i.showturtle()
             invader_speed *= -1
+
+        if bullet_collision_w_invader(bullet, invader):
+            bullet.hideturtle()
+            bullet_state = "ready"
+            bullet.setposition(0, -400)
+            x = random.randint(-200, 200)
+            y = random.randint(100, 230)
+            invader.setposition(x, y)
+            score += 10
+            score_str = "Score: %s" % score
+            score_t.clear()
+            score_t.write(score_str, False, align="left", font=("Arial", 20, "normal"))
+            invader_speed += 0.5
+
+        if player_collision_w_invader(player, invader):
+            Game_Over = True
+
+        if Game_Over is True:
+            player.hideturtle()
+            bullet.hideturtle()
+            for i in invaders:
+                i.hideturtle()
+            screen.bgpic("game_over.gif")
+            break
+
+    if bullet_state == "fire":
+        y = bullet.ycor()
+        y += bullet_speed
+        bullet.sety(y)
+
+    if bullet.ycor() > 260:
+        bullet.hideturtle()
+        bullet_state = "ready"
