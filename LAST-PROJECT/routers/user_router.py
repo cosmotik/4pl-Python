@@ -16,12 +16,12 @@ def all(db: Session = Depends(get_db)):
     return db.query(models.User).all()
 
 
-@router.post('/create')
+@router.post('/create_user')
 def create_user(request: schemas.CreateUser, db: Session = Depends(get_db)):
     new_user = models.User(
         first_name=request.first_name,
         last_name=request.last_name,
-        email=request.email
+        email=request.email,
     )
 
     db.add(new_user)

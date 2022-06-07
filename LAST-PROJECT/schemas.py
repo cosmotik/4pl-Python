@@ -3,22 +3,22 @@ from pydantic import BaseModel
 
 
 class CreateCarBrand(BaseModel):
-    title: str
+    title_brand: str
 
 
 class CarBrandAll(BaseModel):
-    title: str
+    title_brandAll: str
 
     class Config:
         orm_mode = True
 
 
 class CreateCarModel(BaseModel):
-    title: str
+    title_module: str
 
 
 class CarModelAll(BaseModel):
-    title: str
+    title_moduleAll: str
 
     class Config:
         orm_mode = True
