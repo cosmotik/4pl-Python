@@ -3,24 +3,6 @@ from sqlalchemy import Column, String, Integer, ForeignKey, Boolean, DATE, Float
 from sqlalchemy.orm import relationship
 
 
-class CarBrand(Base):
-    __tablename__ = "Car_Brand"
-
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, index=True)
-    models = relationship("CarModel", back_populates="brands")
-
-class CarModel(Base):
-    __tablename__ = "Car_Model"
-
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, index=True)
-    brands = relationship("CarBrand", back_populates='models')
-    description = relationship("CarDescription", back_populates='model_description')
-    record = relationship("Record", back_populates='model_record')
-    brand_id = Column(Integer, ForeignKey("Car_brand.id"))
-
-
 class User(Base):
     __tablename__ = "Users"
 
@@ -28,29 +10,55 @@ class User(Base):
     first_name = Column(String)
     last_name = Column(String)
     email = Column(String, unique=True, index=True)
-    user = relationship("UserSettings", back_populates='setting', uselist=False)
+    setting_id = Column(Integer, ForeignKey("settings.id"))
+    settings = relationship("UserSettings", back_populates='user')
+
 
 class UserSettings(Base):
     __tablename__ = "Settings"
 
     id = Column(Integer, primary_key=True, index=True)
     consumption = Column(Float)
-    odometer_mile = Column(Float)
-    odometer_kilometer = Column(Float)
-    setting = relationship('User', back_populates='user')
+    odometer = Column(Float)
+    user = relationship('User', back_populates='settings', uselist=False)
 
 
-class CarDescription(Base):
-    __tablename__ = "Discription"
-
+class CarBrand(Base):
+    __tablename__ = "Carbrands"
     id = Column(Integer, primary_key=True, index=True)
-    description = Column(String, index=True)
-    model_description = relationship('CarModel', back_populates='description')
+    brand_name = Column(String)
+
+    models = relationship("Model", back_populates='brand')
+    car = relationship("Car", back_populates="brand")
 
 
-class Record(Base):
-    __tablename__ = "Car_Record"
-
+class CarModel(Base):
+    __tablename__ = "CarModels"
     id = Column(Integer, primary_key=True, index=True)
-    TypeOfRecord = Column(String, index=True)
-    model_record = relationship("CarModel", back_populates='record')
+    model = Column(String)
+    brand_id = Column(Integer, ForeignKey("brands.id"))
+    brand = relationship("CarBrand", back_populates="models")
+    car = relationship("Car", back_populates="model")
+
+
+class Mileage_record(Base):
+    id = Column(Integer, primary_key=True, index=True)
+    record = Column(Float)
+    Created = Column(Float)
+    car = relationship("Car", back_populates="record")
+
+
+class Car(Base):
+    __tablename__ = "cars"
+
+    user_id = Column(Integer, ForeignKey("users.id"))
+    user = relationship("CarBrand", back_populates="car")
+
+    brand_id = Column(Integer, ForeignKey("brands.id"))
+    brand = relationship("CarBrand", back_populates="car")
+
+    model_id = Column(Integer, ForeignKey("models.id"))
+    model = relationship("Model", back_populates="car")
+
+    record_id = Column(Integer, ForeignKey("records.id"))
+    record = relationship("Mileage_record", back_populates="car")
