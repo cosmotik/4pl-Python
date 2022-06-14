@@ -44,15 +44,6 @@ class CarModel(Base):
     car = relationship('Car', back_populates='model', uselist=False)
 
 
-class MileageRec(Base):
-    __tablename__ = "records"
-
-    id = Column(Integer, primary_key=True, index=True)
-    record = Column(Float)
-    CreatedAt = datetime.now()
-    car = relationship('Car', back_populates='record')
-
-
 class Car(Base):
     __tablename__ = "cars"
 
@@ -62,7 +53,5 @@ class Car(Base):
     brand = relationship("CarBrand", back_populates="car")
     model_id = Column(Integer, ForeignKey('models.id'))
     model = relationship('CarModel', back_populates='car')
-    record_id = Column(Integer, ForeignKey('records.id'))
-    record = relationship('MileageRec', back_populates='car')
 
 
