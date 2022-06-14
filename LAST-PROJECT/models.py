@@ -10,52 +10,46 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     first_name = Column(String)
     last_name = Column(String)
-
     email = Column(String, unique=True)
-
     settings_id = Column(Integer, ForeignKey('settings.id'))
     settings = relationship('UserSettings', back_populates='owner')
-
     car = relationship('Car', back_populates='user', uselist=False)
 
 
 class UserSettings(Base):
     __tablename__ = "settings"
+
     id = Column(Integer, primary_key=True, index=True)
     Consumption = Column(Float)
     Odometer = Column(Float)
-
     owner = relationship('User', back_populates='settings', uselist=False)
 
 
 class CarBrand(Base):
     __tablename__ = "brands"
+
     id = Column(Integer, primary_key=True, index=True)
     brand_name = Column(String)
-
-    models = relationship('Model', back_populates='brand')
-
+    models = relationship('CarModel', back_populates='brand')
     car = relationship('Car', back_populates='brand', uselist=False)
 
 
-class Model(Base):
+class CarModel(Base):
     __tablename__ = "models"
+
     id = Column(Integer, primary_key=True, index=True)
     model = Column(String)
-
     brand_id = Column(Integer, ForeignKey("brands.id"))
     brand = relationship("CarBrand", back_populates="models")
-
     car = relationship('Car', back_populates='model', uselist=False)
 
 
-class MileageRecord(Base):
+class MileageRec(Base):
     __tablename__ = "records"
 
     id = Column(Integer, primary_key=True, index=True)
     record = Column(Float)
     CreatedAt = datetime.now()
-
     car = relationship('Car', back_populates='record')
 
 
@@ -64,14 +58,11 @@ class Car(Base):
 
     user_id = Column(Integer, ForeignKey("users.id"))
     user = relationship("User", back_populates="car")
-
     brand_id = Column(Integer, ForeignKey("brands.id"))
     brand = relationship("CarBrand", back_populates="car")
-
     model_id = Column(Integer, ForeignKey('models.id'))
-    model = relationship('Model', back_populates='car')
-
+    model = relationship('CarModel', back_populates='car')
     record_id = Column(Integer, ForeignKey('records.id'))
-    record = relationship('MileageRecord', back_populates='car')
+    record = relationship('MileageRec', back_populates='car')
 
 

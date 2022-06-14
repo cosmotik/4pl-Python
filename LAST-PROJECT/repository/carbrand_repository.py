@@ -8,7 +8,7 @@ def check(object, id):
     if not object.first():
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Brand with id {id} not found"
+            detail=f"Brand with id {id} cannot be found"
         )
 
 

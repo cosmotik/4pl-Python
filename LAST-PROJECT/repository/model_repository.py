@@ -8,7 +8,7 @@ def check(object, id):
     if not object.first():
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Model with id {id} not found"
+            detail=f"Model with id {id} cannot be found"
         )
 
 
@@ -28,7 +28,7 @@ def get_all(db: Session):
     return db.query(models.Model).all()
 
 
-def update(id: int, request: schemas.ModelCreate, db: Session):
+def update(id: int, request: schemas.CarModelCreate, db: Session):
     model = db.query(models.Model).filter(models.Model.id == id)
 
     check(model, id)

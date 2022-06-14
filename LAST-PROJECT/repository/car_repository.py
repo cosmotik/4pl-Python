@@ -8,17 +8,16 @@ def check(user, id):
     if not user.first():
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Car with id {id} not found"
+            detail=f"Car with id {id} cannot be found"
         )
 
 
-def create(db: Session, user_id: int, brand_id: int, model_id: int, record_id: int,):
+def create(db: Session, user_id: int, brand_id: int, model_id: int,):
 
     new_car = models.User(
         user_id=user_id,
         brand_id=brand_id,
         model_id=model_id,
-        record_id=record_id,
     )
     db.add(new_car)
     db.commit()
@@ -31,7 +30,7 @@ def get_all(db: Session):
     return db.query(models.Car).all()
 
 
-def update(id: int, request: schemas., db: Session):
+def update(id: int, request: schemas.CreateCar, db: Session):
     car = db.query(models.Car).filter(models.Car.id == id)
 
     check(car, id)

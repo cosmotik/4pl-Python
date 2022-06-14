@@ -22,12 +22,12 @@ def all(db: Session = Depends(get_db)):
     return repo.get_all(db)
 
 
-@router.put('/Update/{id}')
+@router.put('/Update')
 def update(id: int, request: schemas.CarBrandCreate, db: Session = Depends(get_db)):
     return repo.update(id, request, db)
 
 
-@router.delete('/Delete/{id}')
+@router.delete('/Delete')
 def delete(id: int, db: Session = Depends(get_db)):
     return repo.delete(id, db)
 

@@ -8,7 +8,7 @@ def check(user, id):
     if not user.first():
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"User with id {id} not found"
+            detail=f"User with id {id} cannot be found"
         )
 
 
